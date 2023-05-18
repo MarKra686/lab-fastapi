@@ -1,23 +1,17 @@
 from fastapi import FastAPI
-from typing import Union
 from pydantic import BaseModel
+
 app = FastAPI()
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-
-class ItStudentCreateSchema(BaseModel):
+class StudentCreateSchema(BaseModel):
     first_name: str
     last_name: str
 
+@app.post("/students/")
+def create_student(student: StudentCreateSchema):
+    return {"status": "ok", "student": student}
 
-app = FastAPI()
 
-
-@app.post("/items/")
-async def create_item(item: Item):
-    return item
+@app.get("/student/{student_id}")
+async def read_student(student_id):
+    return {"student_id": student_id}
